@@ -32,4 +32,38 @@ public class SPUtils {
         SharedPreferences sp=getPreferences(context);
         return sp.getBoolean(key,defvalue);
     }
+    public static void putString(Context context, String key, String value){
+        SharedPreferences sp=getPreferences(context);
+        SharedPreferences.Editor edit=sp.edit();
+        edit.putString(key,value);
+        edit.apply();
+    }
+
+
+    /**
+     * 获得一个String类型的数据，如果没有则返回null
+     * @param context
+     * 上下文
+     * @param key
+     * sp里的key
+     * @return  拿到返回的结果
+     */
+    public static String getString(Context context,String key){
+        return getString(context,key,null);
+    }
+
+    /**
+     * 获得String类型的数据
+     * @param context
+     * 上下文
+     * @param key
+     * sp里的key
+     * @param defvalue
+     * sp里的value
+     * @return
+     */
+    private static String getString(Context context, String key, String defvalue) {
+        SharedPreferences sp=getPreferences(context);
+        return sp.getString(key,defvalue);
+    }
 }

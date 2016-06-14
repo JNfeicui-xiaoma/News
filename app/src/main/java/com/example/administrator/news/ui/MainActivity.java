@@ -1,21 +1,22 @@
-package com.example.administrator.news.activity;
+package com.example.administrator.news.ui;
 
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.administrator.news.R;
+import com.example.administrator.news.base.MyBaseActivity;
 import com.example.administrator.news.utils.SPUtils;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener{
+public class MainActivity extends MyBaseActivity implements ViewPager.OnPageChangeListener{
     public static final String SPLASH_CONFIG = "splash_config";
     public static final boolean IS_FIRST_RUN = true;
     ImageView icons0, icons1, icons2, icons3;
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     }
 
     private void initView() {
-        mList = new ArrayList<>();
+        mList = new ArrayList<View>();
         mViewPager = (ViewPager) findViewById(R.id.vp_guide);
         icons[0] = (ImageView) findViewById(R.id.icon1);
         icons[1] = (ImageView) findViewById(R.id.icon2);
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             mList.add(iv);
         }
         mViewPager.setAdapter(new MyPagerAdapter(mList));
-        mViewPager.addOnPageChangeListener(this);
+        mViewPager.setOnPageChangeListener(this);
         mViewPager.setPageTransformer(true, new DepthPageTransformer());
     }
 

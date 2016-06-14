@@ -1,16 +1,18 @@
-package com.example.administrator.news.activity;
+package com.example.administrator.news.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.example.administrator.news.R;
+import com.example.administrator.news.base.MyBaseActivity;
 
-public class LogoActivity extends AppCompatActivity {
+public class LogoActivity extends MyBaseActivity {
     private ImageView mImageView;
     private Animation mAnimation;
     @Override
