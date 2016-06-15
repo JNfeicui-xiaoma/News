@@ -41,7 +41,7 @@
             android:src="@drawable/news_menu" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/tv_pinglun"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/textView1"

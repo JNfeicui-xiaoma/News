@@ -59,6 +59,15 @@ public class NewsBean {
         private String link;
         private int type;
 
+//        public DataBean(String summary, String icon, String stamp, String title, int nid, String link, int type) {
+//            this.summary = summary;
+//            this.icon = icon;
+//            this.stamp = stamp;
+//            this.title = title;
+//            this.nid = nid;
+//            this.link = link;
+//            this.type = type;
+//        }
 
         public String getSummary() {
             return summary;

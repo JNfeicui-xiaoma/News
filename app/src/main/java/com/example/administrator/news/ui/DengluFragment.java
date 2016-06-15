@@ -26,6 +26,7 @@ public class DengluFragment extends Fragment {
     private View mView;
     private EditText et_title, et_pwd;
     private Button but_zhuce, but_denglu;
+    private DengluFragment mFragment;
 
     public DengluFragment() {
         // Required empty public constructor
@@ -53,25 +54,16 @@ public class DengluFragment extends Fragment {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.zhuce:
-//                    ((HomeActivity) getActivity()).showZhuceFragment();
                     showSetupDialog();
                     break;
                 case R.id.denglu:
-//                    String name1 = et_title.getText().toString().trim();
-//                    String pwd1 = et_pwd.getText().toString().trim();
-//                    if (TextUtils.isEmpty(name1)) {
-//                        Toast.makeText(getActivity(), "请输入用户名", Toast.LENGTH_SHORT).show();
-//                        return;
-//                    }
-//                    if (TextUtils.isEmpty(pwd1)) {
-//                        Toast.makeText(getActivity(), "密码不能为空", Toast.LENGTH_SHORT).show();
-//                    }
                     showEnterDialog();
                     Toast.makeText(getActivity(), "登陆成功", Toast.LENGTH_SHORT).show();
                     break;
             }
         }
     };
+
     private void showEnterDialog() {
         //验证内容
         String name = et_title.getText().toString().trim();
@@ -86,20 +78,20 @@ public class DengluFragment extends Fragment {
         }
         String savename = SPUtils.getString(getActivity(), Constants.USERNAME);
         String savepwd = SPUtils.getString(getActivity(), Constants.USERPWD);
-        if (!name.equals(savename)){
+        if (!name.equals(savename)) {
             Toast.makeText(getActivity(), "用户名不存在", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (!pwd.equals(savepwd)){
+        if (!pwd.equals(savepwd)) {
             Toast.makeText(getActivity(), "密码不正确", Toast.LENGTH_SHORT).show();
             return;
         }
         //保存edittext里的内容
-        SPUtils.putString(getActivity(),Constants.USERNAME,name);
-        SPUtils.putString(getActivity(),Constants.USERPWD,pwd);
-        Intent intent=new Intent(getActivity(),USERActivity.class);
+        SPUtils.putString(getActivity(), Constants.USERNAME, name);
+        SPUtils.putString(getActivity(), Constants.USERPWD, pwd);
+        Intent intent = new Intent(getActivity(), USERActivity.class);
         startActivity(intent);
-//        finish();
+        mFragment.onDestroy();
     }
 
     private void showSetupDialog() {
@@ -109,43 +101,43 @@ public class DengluFragment extends Fragment {
         final EditText etname = (EditText) mView.findViewById(R.id.et_item_name);
         final EditText etpwd = (EditText) mView.findViewById(R.id.et_pwd1);
         //再次输入密码
-        final EditText etconfirmPwd= (EditText) mView.findViewById(R.id.et_pwd2);
+        final EditText etconfirmPwd = (EditText) mView.findViewById(R.id.et_pwd2);
 
         //      确认或取消
-        Button btn_cancle= (Button) mView.findViewById(R.id.quxiao);
-        Button btn_submit= (Button) mView.findViewById(R.id.zhuce);
+        Button btn_cancle = (Button) mView.findViewById(R.id.quxiao);
+        Button btn_submit = (Button) mView.findViewById(R.id.zhuce);
         builder.setView(mView);
-        final AlertDialog dialog=builder.show();
+        final AlertDialog dialog = builder.show();
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //校验文本框内容
-                String name=etname.getText().toString().trim();
-                String pwd=etpwd.getText().toString().trim();
-                String confirmPwd=etconfirmPwd.getText().toString().trim();
+                String name = etname.getText().toString().trim();
+                String pwd = etpwd.getText().toString().trim();
+                String confirmPwd = etconfirmPwd.getText().toString().trim();
                 // 是否为空
-                if (TextUtils.isEmpty(name)){
+                if (TextUtils.isEmpty(name)) {
                     Toast.makeText(getActivity(), "用户名不能为空", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (TextUtils.isEmpty(pwd)||TextUtils.isEmpty(confirmPwd)){
+                if (TextUtils.isEmpty(pwd) || TextUtils.isEmpty(confirmPwd)) {
                     Toast.makeText(getActivity(), "密码不能为空", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 //    是否相同
-                if (!pwd.equals(confirmPwd)){
+                if (!pwd.equals(confirmPwd)) {
                     Toast.makeText(getActivity(), "两次输入的密码不一致", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                String savename=SPUtils.getString(getActivity(),Constants.USERNAME);
-                if (name.equals(savename)){
+                String savename = SPUtils.getString(getActivity(), Constants.USERNAME);
+                if (name.equals(savename)) {
                     Toast.makeText(getActivity(), "用户名已存在", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                SPUtils.putString(getActivity(),Constants.USERNAME,name);
-                SPUtils.putString(getActivity(),Constants.USERPWD,pwd);
+                SPUtils.putString(getActivity(), Constants.USERNAME, name);
+                SPUtils.putString(getActivity(), Constants.USERPWD, pwd);
                 dialog.dismiss();
-                Toast.makeText(getActivity(),"注册成功",Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "注册成功", Toast.LENGTH_LONG).show();
             }
         });
         btn_cancle.setOnClickListener(new View.OnClickListener() {

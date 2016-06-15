@@ -52,7 +52,6 @@ public class HomeActivity extends Activity implements AdapterView.OnItemClickLis
             switch (msg.what) {
                 case 1:
                     mAdapter = new NewsAdapter(HomeActivity.this, jsonList, mListView);
-                    Log.d("第二次", "ActivityMain");
                     mListView.setAdapter(mAdapter);
                     break;
             }

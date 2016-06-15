@@ -1,6 +1,5 @@
 package com.example.administrator.news.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 
 import com.example.administrator.news.R;
 import com.example.administrator.news.bean.NewsBean;
-import com.example.administrator.news.entity.News;
 import com.example.administrator.news.utils.LoadImage;
 
 import java.util.List;
@@ -28,14 +26,20 @@ public class NewsAdapter extends MyBaseAdapter<NewsBean.DataBean> implements Abs
     private int start,end;
     private boolean isFistIn;
     public static String[] urls ;
-
+    private LoadImage loadImage;
     private Bitmap defaultBitmap;
     ListView listView;
+    public NewsAdapter(Context context, ListView listView) {
+        super(context);
+        defaultBitmap = BitmapFactory.decodeResource(context.getResources(),
+                R.drawable.defaultpic);
+        mLoadImage = new LoadImage(context,listener);
+        this.listView = listView;
+    }
     public NewsAdapter(Context context, List<NewsBean.DataBean> jsonList,ListView listView) {
         super(context);
         mList.clear();
         this.mList=jsonList;
-
         mLoadImage =new LoadImage(listView);
         urls=new String[mList.size()];
 
@@ -103,13 +107,7 @@ public class NewsAdapter extends MyBaseAdapter<NewsBean.DataBean> implements Abs
         }
     }
 
-    public NewsAdapter(Context context, ListView listView) {
-        super(context);
-        defaultBitmap = BitmapFactory.decodeResource(context.getResources(),
-                R.drawable.defaultpic);
-        mLoadImage = new LoadImage(context,listener);
-        this.listView = listView;
-    }
+
 private LoadImage.ImageLoadListener listener = new LoadImage.ImageLoadListener() {
 
     @Override

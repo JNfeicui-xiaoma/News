@@ -17,6 +17,7 @@ import com.example.administrator.news.R;
  */
 public class FragmentMenu extends Fragment {
     private RelativeLayout[] rls = new RelativeLayout[5];
+    private FragmentMenu mMenu;
 
     public FragmentMenu() {
         // Required empty public constructor
@@ -51,11 +52,14 @@ public class FragmentMenu extends Fragment {
                     rls[0].setBackgroundColor(0x33c85555);
                     Intent intent=new Intent(getActivity(),HomeActivity.class);
                     startActivity(intent);
+                    mMenu.onDestroy();
                     break;
                 case R.id.rl_reading:
                     rls[0].setBackgroundColor(0x33c85555);
-                    Intent intent1=new Intent(getActivity(),FragmentFavorite.class);
-                    startActivity(intent1);
+//                    Intent intent1=new Intent(getActivity(),FragmentFavorite.class);
+//                    startActivity(intent1);
+//                    mMenu.onDestroy();
+                    ((HomeActivity) getActivity()).showFragmentFavorite();
                     break;
                 case R.id.rl_local:
                     rls[0].setBackgroundColor(0x33c85555);
@@ -63,7 +67,8 @@ public class FragmentMenu extends Fragment {
                     break;
                 case R.id.rl_comment:
                     rls[0].setBackgroundColor(0x33c85555);
-
+                    Intent intent1=new Intent(getActivity(),CommentActivity.class);
+                    startActivity(intent1);
                     break;
                 case R.id.rl_photo:
                     rls[0].setBackgroundColor(0x33c85555);

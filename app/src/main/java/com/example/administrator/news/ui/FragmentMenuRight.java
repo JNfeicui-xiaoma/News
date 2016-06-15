@@ -42,13 +42,13 @@ public class FragmentMenuRight extends Fragment {
     private TextView textView1, updataTv;
 
     //分享到微信
-    private ImageView iv_friend;
+    private ImageView iv_friend,iv_friends;
 
     /**
      * 分享位置规定
      */
     private IWXAPI api;
-    public static final String App_ID="wxb3ac72dbe99b61a5";
+    public static final String App_ID="wx4394a3a9b4509be0";
     public FragmentMenuRight() {
         // Required empty public constructor
     }
@@ -72,6 +72,8 @@ public class FragmentMenuRight extends Fragment {
         api.registerApp(App_ID);
         iv_friend= (ImageView) view.findViewById(R.id.fun_friend);
         iv_friend.setOnClickListener(mOnClick);
+        iv_friends= (ImageView) view.findViewById(R.id.fun_friends);
+        iv_friends.setOnClickListener(mOnClick);
 
         textView1.setOnClickListener(mOnClick);
         imageView1.setOnClickListener(mOnClick);
@@ -139,6 +141,58 @@ public class FragmentMenuRight extends Fragment {
                     alert.show();
 
 //                   Toast.makeText(getActivity(),String.valueOf(api.openWXApp()), Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.fun_friends:
+                    //                    api.openWXApp();
+                    //动态创建EditText，用于输入文本
+                    final EditText editor1 = new EditText(getActivity());
+                    //设置布局
+                    editor1.setLayoutParams(new LinearLayout.LayoutParams
+                            (LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT));
+                    // 设置默认的分享文本
+                    editor1.setText("请输入要分享的文字！");
+                    // 创建dialog对象
+                    final AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
+                    builder1.setIcon(android.R.drawable.ic_dialog_alert);
+                    builder1.setTitle("共享文本");
+                    //将EditText与对话框绑定
+                    builder1.setView(editor1);
+                    builder1.setMessage("请输入要分享的文本");
+                    builder1.setPositiveButton("分享", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //获取待分享文本
+                            String text = editor1.getText().toString();
+                            if (text == null || text.length() == 0) {
+                                return;
+                            }
+
+                            //第一步：创建一个用于封装待分享文本的WXTextObject对象
+                            WXTextObject textObj = new WXTextObject();
+                            textObj.text = text;
+
+                            //第二步： 创建WXMediaMessage对象，该对象用于Android客户端向微信发送数据
+                            WXMediaMessage msg = new WXMediaMessage();
+                            msg.mediaObject = textObj;
+                            msg.description = text;//设置一个描述
+
+                            //第三步： 创建一个请求微信客户端的SendMessageToWX.Req对象
+                            SendMessageToWX.Req req = new SendMessageToWX.Req();
+                            req.message = msg;
+                            //设置唯一的标识
+                            req.transaction = buildTransaction("Text");
+                            //表示发送给朋友
+                            req.scene = SendMessageToWX.Req.WXSceneTimeline;
+
+                            // 第四步：发送给微信客户端
+                            Toast.makeText(getActivity(), String.valueOf
+                                    (api.sendReq(req)), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    builder1.setNegativeButton("取消", null);
+                    final AlertDialog alert1 = builder1.create();
+                    alert1.show();
                     break;
             }
         }

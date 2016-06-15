@@ -132,6 +132,8 @@
 
         <activity android:name=".ui.USERActivity">
         </activity>
+        <activity android:name=".ui.CommentActivity">
+        </activity>
     </application>
 
 </manifest>

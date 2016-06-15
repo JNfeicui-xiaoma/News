@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.administrator.news.entity.News;
+import com.example.administrator.news.bean.NewsBean;
 
 import java.util.ArrayList;
 
@@ -63,8 +63,8 @@ public class NewsDBManager {
         return len;
     }
     //查询数据
-    public ArrayList<News> queryNews(int count,int offset){
-        ArrayList<News> newsList=new ArrayList<News>();
+    public ArrayList<NewsBean.DataBean> queryNews(int count,int offset){
+        ArrayList<NewsBean.DataBean> newsList=new ArrayList<NewsBean.DataBean>();
         SQLiteDatabase db=mHelper.getWritableDatabase();
         String sql="select * from news order by _id desc limit "+count+"offset"+offset;
         Cursor cursor=db.rawQuery(sql,null);
@@ -76,7 +76,7 @@ public class NewsDBManager {
                 String icon=cursor.getString(cursor.getColumnIndex("icon"));
                 String link=cursor.getString(cursor.getColumnIndex("link"));
                 int type=cursor.getInt(cursor.getColumnIndex("type"));
-                News news=new News(nid,title,summary,icon,link,type);
+                NewsBean.DataBean news=new NewsBean.DataBean();
                 newsList.add(news);
             }while (cursor.moveToNext());
             cursor.close();
@@ -84,7 +84,7 @@ public class NewsDBManager {
         }
         return newsList;
     }
-    public boolean saveLoveNews(News news){
+    public boolean saveLoveNews(NewsBean.DataBean news){
         try {
             SQLiteDatabase db=mHelper.getWritableDatabase();
             Cursor cursor=db.rawQuery("select * from lovenews where nid="+news.getNid(),null);
@@ -108,21 +108,22 @@ public class NewsDBManager {
             return false;
         }
     }
-    public ArrayList<News> queryLoveNews(){
-        ArrayList<News> newsList=new ArrayList<News>();
+    public ArrayList<NewsBean.DataBean> queryLoveNews(){
+        ArrayList<NewsBean.DataBean> newsList=new ArrayList<NewsBean.DataBean>();
         SQLiteDatabase db=mHelper.getReadableDatabase();
-        String sql="select * from lovenews order by _id desc";
+        String sql="select * from news order by _id desc";
         Cursor cursor=db.rawQuery(sql, null);
+
         if (cursor.moveToFirst()) {
             do {
                 int type = cursor.getInt(cursor.getColumnIndex("type"));
                 int nid = cursor.getInt(cursor.getColumnIndex("nid"));
-
+                String stamp=cursor.getString(cursor.getColumnIndex("stamp"));
                 String icon = cursor.getString(cursor.getColumnIndex("icon"));
                 String title = cursor.getString(cursor.getColumnIndex("title"));
                 String summary = cursor.getString(cursor.getColumnIndex("summary"));
                 String link = cursor.getString(cursor.getColumnIndex("link"));
-                News news = new News(nid,title,summary,icon,link,type);
+                NewsBean.DataBean news = new NewsBean.DataBean();
                 newsList.add(news);
             } while (cursor.moveToNext());
             cursor.close();

@@ -8,12 +8,9 @@ import android.util.LruCache;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.android.volley.toolbox.ImageLoader;
 import com.example.administrator.news.R;
 import com.example.administrator.news.adapter.NewsAdapter;
-import com.example.administrator.news.entity.News;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;

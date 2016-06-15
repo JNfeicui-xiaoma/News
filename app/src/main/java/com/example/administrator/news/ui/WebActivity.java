@@ -1,12 +1,10 @@
 package com.example.administrator.news.ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -15,16 +13,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.administrator.news.R;
+import com.example.administrator.news.base.MyBaseActivity;
+import com.example.administrator.news.bean.NewsBean;
 import com.example.administrator.news.dao.NewsDBManager;
-import com.example.administrator.news.entity.News;
 
-public class WebActivity extends Activity {
-
+public class WebActivity extends MyBaseActivity {
+    private TextView tv_commentCount;
     private WebView mWebView;
     private ImageView image_menu;
     private PopupWindow popupWindow;
-    News newsitem;
-
+//    News newsitem;
+    NewsBean.DataBean mDataBean;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,9 +41,12 @@ public class WebActivity extends Activity {
         settings.setDisplayZoomControls(false);
         settings.setSupportZoom(true);//设定支持缩放
 
-        newsitem = (News) getIntent().getSerializableExtra("newsitem");
+//        newsitem = (News) getIntent().getSerializableExtra("newsitem");
+        mDataBean= (NewsBean.DataBean) getIntent().getSerializableExtra("mDataBean");
         image_menu= (ImageView) findViewById(R.id.imageView_menu);
         image_menu.setOnClickListener(clickListener);
+        tv_commentCount= (TextView) findViewById(R.id.tv_pinglun);
+        tv_commentCount.setOnClickListener(clickListener);
         initPopupWindow();
     }
     private View.OnClickListener clickListener=new View.OnClickListener() {
@@ -57,6 +59,13 @@ public class WebActivity extends Activity {
                     } else if (popupWindow != null) {
                         popupWindow.showAsDropDown(image_menu, 0, 12);
                     }
+                    break;
+                case R.id.tv_pinglun:
+//                    Bundle bundle=new Bundle();
+//                    bundle.putInt("nid",mDataBean.getNid());
+                    Intent intent=new Intent(WebActivity.this,CommentActivity.class);
+                    startActivity(intent);
+                    finish();
                     break;
             }
         }
@@ -74,7 +83,7 @@ public class WebActivity extends Activity {
                 popupWindow.dismiss();
                 NewsDBManager manager = new NewsDBManager(WebActivity.this);
                 //TODO
-                if (manager.saveLoveNews(newsitem)) {
+                if (manager.saveLoveNews(mDataBean)) {
 //                    showToast("收藏成功！\n在主界面侧滑菜单中查看");
                     Toast.makeText(WebActivity.this, "收藏成功！\n在主界面侧滑菜单中查看", Toast.LENGTH_SHORT).show();
                 }

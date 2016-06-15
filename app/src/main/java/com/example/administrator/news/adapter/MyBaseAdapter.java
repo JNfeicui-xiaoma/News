@@ -120,4 +120,6 @@ public abstract class MyBaseAdapter<T> extends BaseAdapter {
 
     //作为预留方法，定义为抽象方法，要求子类继承该基础类时，必须重写该方法
     public abstract View getMyView(int position, View convertView, ViewGroup parent);
+
+
 }
